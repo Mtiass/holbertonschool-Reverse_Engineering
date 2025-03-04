@@ -22,10 +22,10 @@ if ! file "$file_name" | grep -q "ELF"; then
 fi
 
 # Extract information using readelf
-magic_number=$(readelf -h "$file_name" | awk '/Magic:/ {for (i=2; i<=NF; i++) printf $i " "; print ""}')
+magic_number=$(readelf -h "$file_name" | awk '/Magic:/ {for (i=2; i<=NF; i++) printf $i " "; print ""}' | xargs)
 class_format=$(readelf -h "$file_name" | awk '/Class:/ {print $2}')
 byte_order_raw=$(readelf -h "$file_name" | awk '/Data:/ {print $2}')
-entry_point=$(readelf -h "$file_name" | awk '/Entry point address:/ {print $4}')
+entry_point=$(readelf -h "$file_name" | awk '/Entry point address:/ {print $4}' | xargs)
 
 # Format Byte Order to human readable (little or big endian)
 if [[ "$byte_order_raw" == "2's" ]]; then
